@@ -19,33 +19,34 @@ while True:
 
     if opcao == "d":
         deposito = float(input("Qual é o valor do depósito? "))
-        if deposito > 0:
+        if deposito >= 0:
             saldo += deposito
-            extrato += f"Depósito de {deposito} realizado com sucesso\n"
+            extrato += f"Depósito de R$ {deposito:.2f}\n"
         else:
             print("Não é possível depositar valores negativos!")
 
     elif opcao == "s":
-        saque = float(input("Qual é o valor do saque? "))
+        if numero_saques < LIMITE_SAQUES:
+            saque = float(input("Qual é o valor do saque? "))
 
-        if saque > saldo:
-            print("Não será possível realizar a operação. Saldo insuficiente!")
-        elif saque > 0:
-            if saque < LIMITE and numero_saques < LIMITE_SAQUES:
-                saldo -= saque
-                numero_saques += 1
-                extrato += f"Saque de {saque} realizado com sucesso\n"
-            elif saque >= LIMITE:
-                print(f"Não é possível realizar saque de valor maior que {LIMITE} por operação!")
-            elif numero_saques >= LIMITE_SAQUES:
-                print(f"Não é possível realizar mais do que {LIMITE_SAQUES} por dia!")
-
+            if saque > saldo:
+                print("Não será possível realizar a operação. Saldo insuficiente!")
+            elif saque > 0:
+                if saque <= LIMITE:
+                    saldo -= saque
+                    numero_saques += 1
+                    extrato += f"Saque de R$ {saque:.2f}\n"
+                elif saque > LIMITE:
+                    print(f"Não é possível realizar saque de valor maior que {LIMITE} por operação!") 
+                else:
+                    print("Não é possível realizar saque de valores negativos!")
         else:
-            print("Não é possível realizar saque de valores negativos!")
+            print(f"Não é possível realizar mais do que {LIMITE_SAQUES} por dia!")
         
 
     elif opcao == "e":
         print(extrato)
+        print(f"Saldo: R$ {saldo:.2f}")
         
 
     elif opcao == "q":
